@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Core Online Tutorial - List users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+          
+     <link href="webjars/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen"/>     
+</head>
+<body>
+	<script src="webjars/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<div> 
+		<h2>Welcome to Lausanne Commune Website</h2>
+	</div>
+	<div> 
+		<h3>1. Load the list of residents into the application and display it</h3>
+		<a href="/userList">Get list</a>
+	</div>
+	<div> 
+		<h3>2.Generate a report listing all resident families with the number of adult and children (less than 18) per family sorted by family name</h3>
+		<a href="/sortedUserlist">Get sorted list</a>
+	</div>
+	<div>
+		<h3>3. Search a resident using email address</h3>
+		<form action="/checkUser" method="get">
+		  Email: <input type="text" name="email"/><br/>
+		  <input type="submit" value="Submit"/>
+		 </form>
+	</div>
+</body>
+</html>

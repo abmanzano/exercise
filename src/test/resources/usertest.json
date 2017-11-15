@@ -1,0 +1,29 @@
+[  
+   {  
+      "id":"1",
+      "firstname":"Jessica",
+      "lastname":"RICHARDSO",
+      "email":"jessica.richardso@hotmail.com",
+      "dateOfBirth":590764048979,
+      "mobile":"56311896",
+      "town":"Lausanne"
+   },
+   {  
+      "id":"2",
+      "firstname":"Victoria",
+      "lastname":"GORDON",
+      "email":"victoria.gordon@elca.ch",
+      "dateOfBirth":780239248981,
+      "mobile":"179333670",
+      "town":"Lausanne"
+   },
+   {  
+      "id":"3",
+      "firstname":"Lily",
+      "lastname":"FOX",
+      "email":"lily.fox@secutix.com",
+      "dateOfBirth":680101648981,
+      "mobile":"717419",
+      "town":"Lausanne"
+   }
+]
