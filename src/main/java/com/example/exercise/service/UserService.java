@@ -97,6 +97,8 @@ public class UserService {
 		List<GroupResult> groupResult = null;
 		Map<String, GroupResult> groupResultMap = new HashMap<>();
 
+		// TODO: Get this kind of calls out of these service methods in order to
+		// be able to unit test them properly
 		// Get the full list of users using Guava cache
 		List<User> listOfUsers = loadUser();
 
