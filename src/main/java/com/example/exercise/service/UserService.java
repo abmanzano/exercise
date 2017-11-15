@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.joda.time.LocalDate;
@@ -91,17 +93,17 @@ public class UserService {
 	public static List<GroupResult> loadSortedUserGroup() throws IOException,
 			ParseException, JSONException, ExecutionException {
 		// Step1: Load the user and group them by last name, count adult and
-		// children
-		// and then return the list sorted by last name.
-		List<GroupResult> groupResult = new ArrayList<>();
+		// children and then return the list sorted by last name.
+		List<GroupResult> groupResult = null;
+		Map<String, GroupResult> groupResultMap = new HashMap<>();
 
 		// Get the full list of users using Guava cache
 		List<User> listOfUsers = loadUser();
 
-		// Iterate over the list of users and check if the surname is already in
-		// the resulting list "groupResult"
+		// Iterate over the list of users from the json file
 		Iterator<User> iterator = listOfUsers.iterator();
 		while (iterator.hasNext()) {
+			// Get lastname and age
 			User user = iterator.next();
 			String lastname = user.getLastname();
 			// JodaTime to get the age of the user
@@ -109,23 +111,19 @@ public class UserService {
 					new LocalDate());
 			int userAge = age.getYears();
 
-			// Loop the resulting list to check if surname family is already
-			// there
-			boolean alreadyExists = false;
-			for (GroupResult r : groupResult) {
-				if (lastname.equals(r.getLastname())) {
-					alreadyExists = true;
-					// If family already exists add 1 to either adult or child
-					// values depending on age
-					if (userAge > EIGHTEEN) {
-						r.setAdult(r.getAdult().intValue() + 1);
-					} else {
-						r.setChildren(r.getChildren().intValue() + 1);
-					}
+			// Check if the family surname is already in the map and update
+			// accordingly
+			if (groupResultMap.containsKey(lastname)) {
+				GroupResult existingFamily = groupResultMap.get(lastname);
+				if (userAge > EIGHTEEN) {
+					existingFamily
+							.setAdult(existingFamily.getAdult().intValue() + 1);
+				} else {
+					existingFamily.setChildren(
+							existingFamily.getChildren().intValue() + 1);
 				}
-			}
-
-			if (!alreadyExists) {
+				groupResultMap.put(lastname, existingFamily);
+			} else {
 				GroupResult newFamily = new GroupResult();
 
 				newFamily.setLastname(lastname);
@@ -137,9 +135,13 @@ public class UserService {
 					newFamily.setAdult(0);
 				}
 
-				groupResult.add(newFamily);
+				groupResultMap.put(lastname, newFamily);
 			}
 		}
+
+		// Get the GroupResult objects from the map and convert them to a list,
+		// which is what the controller is expecting
+		groupResult = new ArrayList<>(groupResultMap.values());
 
 		// Sort ArrayList groupResult
 		Collections.sort(groupResult);
