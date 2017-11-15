@@ -13,18 +13,19 @@ import com.google.common.cache.LoadingCache;
 
 public class UserGuavaCacheUtil {
 
+	public static LoadingCache<String, List<User>> usersCache;
+
 	@Autowired
 	private static UserService userService;
 
-	public static LoadingCache<String, List<User>> getLoadingCacheForUsers() {
-		LoadingCache<String, List<User>> userCache = CacheBuilder.newBuilder()
-				.maximumSize(1).expireAfterAccess(10, TimeUnit.MINUTES)
+	public static void loadCacheForUsers() {
+		usersCache = CacheBuilder.newBuilder().maximumSize(1)
+				.expireAfterAccess(10, TimeUnit.MINUTES)
 				.build(new CacheLoader<String, List<User>>() {
 					@Override
 					public List<User> load(String id) throws Exception {
 						return userService.loadUserIfCacheMiss();
 					}
 				});
-		return userCache;
 	}
 }

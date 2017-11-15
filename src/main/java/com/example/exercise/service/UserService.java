@@ -24,7 +24,6 @@ import com.example.exercise.util.UserGuavaCacheUtil;
 import com.example.exercise.validation.UserValidator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.cache.LoadingCache;
 
 public class UserService {
 
@@ -45,10 +44,12 @@ public class UserService {
 	public static List<User> loadUser() throws IOException, ParseException,
 			JSONException, ExecutionException {
 		// Try to use the Guava Loading cache
-		LoadingCache<String, List<User>> usersCache = UserGuavaCacheUtil
-				.getLoadingCacheForUsers();
+		if (UserGuavaCacheUtil.usersCache == null
+				|| UserGuavaCacheUtil.usersCache.get("usersCache").isEmpty()) {
+			UserGuavaCacheUtil.loadCacheForUsers();
+		}
 
-		return usersCache.get("usersCache");
+		return UserGuavaCacheUtil.usersCache.get("usersCache");
 	}
 
 	/**
