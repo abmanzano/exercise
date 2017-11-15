@@ -45,10 +45,10 @@ public class UserService {
 	public static List<User> loadUser() throws IOException, ParseException,
 			JSONException, ExecutionException {
 		// Try to use the Guava Loading cache
-		LoadingCache<Integer, List<User>> usersCache = UserGuavaCacheUtil
-				.getLoadingCache();
+		LoadingCache<String, List<User>> usersCache = UserGuavaCacheUtil
+				.getLoadingCacheForUsers();
 
-		return usersCache.get(0);
+		return usersCache.get("usersCache");
 	}
 
 	/**

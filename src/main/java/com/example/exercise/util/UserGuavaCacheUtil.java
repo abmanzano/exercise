@@ -16,13 +16,12 @@ public class UserGuavaCacheUtil {
 	@Autowired
 	private static UserService userService;
 
-	public static LoadingCache<Integer, List<User>> getLoadingCache() {
-		LoadingCache<Integer, List<User>> userCache = CacheBuilder.newBuilder()
-				.maximumSize(100)
-				.expireAfterAccess(10, TimeUnit.MINUTES)
-				.build(new CacheLoader<Integer, List<User>>() {
+	public static LoadingCache<String, List<User>> getLoadingCacheForUsers() {
+		LoadingCache<String, List<User>> userCache = CacheBuilder.newBuilder()
+				.maximumSize(1).expireAfterAccess(10, TimeUnit.MINUTES)
+				.build(new CacheLoader<String, List<User>>() {
 					@Override
-					public List<User> load(Integer id) throws Exception {
+					public List<User> load(String id) throws Exception {
 						return userService.loadUserIfCacheMiss();
 					}
 				});
