@@ -78,6 +78,22 @@ public class UserService {
 				new TypeReference<List<User>>() {
 				});
 
+		/*
+		 * Opcion 2: Sin necesidad de convertir el archivo en un string
+		 * 
+		List<User> users = null;
+		try {
+			users = mapper.readValue(
+					new File(
+							ClassLoader.getSystemResource("user.json").toURI()),
+					new TypeReference<List<User>>() {
+					});
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 */
+		
 		return users;
 	}
 
